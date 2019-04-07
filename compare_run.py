@@ -104,6 +104,44 @@ def update_Sarsa():
     print('game over for Sarsa')
     env.destroy()
 
+def update_QV_learning():
+    global plot_y
+    plot_y.clear()
+
+    for episode in range(EPIS):
+        # initial observation
+        observation = env.reset()
+        reward_total = 0
+        
+
+        while True:
+            # fresh env
+            env.render()
+
+            # RL choose action based on observation
+            action = RL.choose_action(str(observation))
+
+            # RL take action and get next observation and reward
+            observation_, reward, done = env.step(action)
+            reward_total += reward
+
+            # RL learn from this transition
+            RL.learn(str(observation), action, reward, str(observation_))
+
+            # swap observation
+            observation = observation_
+
+            # break while loop when end of this episode
+            if done:
+                plot_y.append(reward_total)
+                print(f"Episode ({episode}):")
+                print(f"Total rewards(QV-learning): {reward_total}")
+                break
+
+    # end of game
+    print('game over for QV-learning')
+    env.destroy()
+
 
 
 if __name__ == "__main__":
@@ -127,7 +165,14 @@ if __name__ == "__main__":
     env.mainloop()
     ax.plot(range(EPIS), plot_y, label='Sarsa')
 
+    #QV-learning
+    env = Maze()
+    RL = QVLearningTable(actions=list(range(env.n_actions)), learning_rate=0.3, lr_v=0.05)
+    env.after(100, update_QV_learning)
+    env.mainloop()
+    ax.plot(range(EPIS), plot_y, label='QV-learning')
+
 
     legend = ax.legend(loc='lower right', shadow=True, fontsize='x-large')    
-    fig.savefig("Qlearning_vs_Sarsa.png")
+    fig.savefig("Qlearning_vs_Sarsa_vs_QVlearning.png")
     plt.show()
