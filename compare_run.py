@@ -54,7 +54,7 @@ def update_Q_learning():
             if done:
                 plot_y.append(reward_total)
                 print(f"Episode {episode}:")
-                print(f"Total rewards(lr={e_test}): {reward_total}")
+                print(f"Total rewards(Q-learning): {reward_total}")
                 break
 
     # end of game
@@ -96,7 +96,7 @@ def update_Sarsa():
             if done:
                 plot_y.append(reward_total)
                 print(f"Episode {episode}:")
-                print(f"Total rewards: {reward_total}")
+                print(f"Total rewards(Sarsa): {reward_total}")
                 break
 
     # end of game
