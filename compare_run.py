@@ -156,7 +156,7 @@ if __name__ == "__main__":
 
     #QV-learning
     env = Maze()
-    RL = QVLearningTable(actions=list(range(env.n_actions)), learning_rate=0.5, lr_v=0.05)
+    RL = QVLearningTable(actions=list(range(env.n_actions)), learning_rate=0.7, lr_v=0.5)
     env.after(100, update_QV_learning)
     env.mainloop()
     ax.plot(range(EPIS), plot_y, label='QV-learning')
@@ -179,5 +179,5 @@ if __name__ == "__main__":
 
 
     legend = ax.legend(loc='lower right', shadow=True, fontsize='x-large')    
-    fig.savefig("Qlearning_vs_Sarsa_vs_QVlearning_1.png")
+    fig.savefig("Qlearning_vs_Sarsa_vs_QVlearning(q0.7_v0.5).png")
     plt.show()
