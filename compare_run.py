@@ -15,6 +15,7 @@ View more on my tutorial page: https://morvanzhou.github.io/tutorials/
 from maze_env import Maze
 from Qlearning_brain import QLearningTable
 from Sarsa_brain import SarsaTable
+from QV_brain import QVLearningTable
 
 
 import matplotlib
@@ -152,6 +153,15 @@ if __name__ == "__main__":
            title='Total rewards at each episode')
     ax.grid()
 
+
+    #QV-learning
+    env = Maze()
+    RL = QVLearningTable(actions=list(range(env.n_actions)), learning_rate=0.5, lr_v=0.05)
+    env.after(100, update_QV_learning)
+    env.mainloop()
+    ax.plot(range(EPIS), plot_y, label='QV-learning')
+
+    #Q-learning
     env = Maze()
     RL = QLearningTable(actions=list(range(env.n_actions)), learning_rate=0.5, e_greedy=0.85)
     env.after(100, update_Q_learning)
@@ -165,14 +175,9 @@ if __name__ == "__main__":
     env.mainloop()
     ax.plot(range(EPIS), plot_y, label='Sarsa')
 
-    #QV-learning
-    env = Maze()
-    RL = QVLearningTable(actions=list(range(env.n_actions)), learning_rate=0.3, lr_v=0.05)
-    env.after(100, update_QV_learning)
-    env.mainloop()
-    ax.plot(range(EPIS), plot_y, label='QV-learning')
+    
 
 
     legend = ax.legend(loc='lower right', shadow=True, fontsize='x-large')    
-    fig.savefig("Qlearning_vs_Sarsa_vs_QVlearning.png")
+    fig.savefig("Qlearning_vs_Sarsa_vs_QVlearning_1.png")
     plt.show()
